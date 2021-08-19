@@ -1,0 +1,11 @@
+.gradle/
+app/src/main/java/
+app/src/main/kotlin/
+app/src/main/res/
+gradle/
+
+gradlew*
+local.properties
+settings_aar.gradle
+
+*.iml
