@@ -68,21 +68,18 @@ class MainPageStateWidget extends StatelessWidget {
         }
         final MainPageState state = snapshot.data!;
         switch (state) {
+          case MainPageState.noFavorites:
+            return DefaultWidget(state: state);
+          case MainPageState.minSymbols:
+            return MinSymbolsText();
           case MainPageState.loading:
             return LoadingIndicator();
-          case MainPageState.noFavorites:
-          case MainPageState.minSymbols:
           case MainPageState.nothingFound:
           case MainPageState.loadingError:
           case MainPageState.searchResult:
           case MainPageState.favorites:
           default:
-            return Center(
-              child: Text(
-                state.toString(),
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            );
+            return DefaultWidget(state: state);
         }
       },
     );
@@ -90,10 +87,6 @@ class MainPageStateWidget extends StatelessWidget {
 }
 
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -104,6 +97,45 @@ class LoadingIndicator extends StatelessWidget {
           color: SuperheroesColors.loadingIndicator,
           strokeWidth: 4,
         ),
+      ),
+    );
+  }
+}
+
+class MinSymbolsText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsets.only(top: 110),
+        child: Text(
+          "Enter at least 3 symbols",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DefaultWidget extends StatelessWidget {
+  final MainPageState state;
+
+  DefaultWidget({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        state.toString(),
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
   }
