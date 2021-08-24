@@ -23,7 +23,7 @@ class ActionButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: SuperheroesColors.blueButton,
+          color: SuperheroesColors.lightBlue,
         ),
         child: Text(
           text.toUpperCase(),

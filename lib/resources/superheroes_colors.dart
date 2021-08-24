@@ -6,5 +6,5 @@ class SuperheroesColors {
 
   static const background = Color(0xFF10141E);
   static const loadingIndicator = Colors.blue;
-  static const blueButton = Color.fromRGBO(0, 188, 212, 1);
+  static const lightBlue = Color.fromRGBO(0, 188, 212, 1);
 }
