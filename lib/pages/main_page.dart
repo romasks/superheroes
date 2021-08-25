@@ -176,7 +176,7 @@ class SearchResultPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SuperheroCard(
             name: "Batman",
-            realName: "Bruce Wane",
+            realName: "Bruce Wayne",
             imageUrl: SuperheroesImages.batmanImageUrl,
           ),
         ),
@@ -217,7 +217,7 @@ class FavoritesPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SuperheroCard(
             name: "Batman",
-            realName: "Bruce Wane",
+            realName: "Bruce Wayne",
             imageUrl: SuperheroesImages.batmanImageUrl,
           ),
         ),
