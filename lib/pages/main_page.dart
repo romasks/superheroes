@@ -76,11 +76,12 @@ class MainPageStateWidget extends StatelessWidget {
             return MinSymbolsText();
           case MainPageState.loading:
             return LoadingIndicator();
+          case MainPageState.searchResult:
+            return SearchResultPage();
           case MainPageState.favorites:
             return FavoritesPage();
           case MainPageState.nothingFound:
           case MainPageState.loadingError:
-          case MainPageState.searchResult:
           default:
             return DefaultWidget(state: state);
         }
@@ -169,6 +170,47 @@ class MinSymbolsText extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SearchResultPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 114),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            "Search results",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SuperheroCard(
+            name: "Batman",
+            realName: "Bruce Wane",
+            imageUrl: SuperheroesImages.batmanImageUrl,
+          ),
+        ),
+        SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SuperheroCard(
+            name: "Venom",
+            realName: "Eddi Brock",
+            imageUrl: SuperheroesImages.venomImageUrl,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -9,4 +9,6 @@ class SuperheroesImages {
       "https://www.superherodb.com/pictures2/portraits/10/100/639.jpg";
   static const ironmanImageUrl =
       "https://www.superherodb.com/pictures2/portraits/10/100/85.jpg";
+  static const venomImageUrl =
+      "https://www.superherodb.com/pictures2/portraits/10/100/22.jpg";
 }
