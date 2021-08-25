@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:superheroes/blocs/main_bloc.dart';
+import 'package:superheroes/pages/superhero_page.dart';
 import 'package:superheroes/resources/superheroes_colors.dart';
 import 'package:superheroes/resources/superheroes_images.dart';
 import 'package:superheroes/widgets/action_button.dart';
@@ -75,10 +76,11 @@ class MainPageStateWidget extends StatelessWidget {
             return MinSymbolsText();
           case MainPageState.loading:
             return LoadingIndicator();
+          case MainPageState.favorites:
+            return FavoritesPage();
           case MainPageState.nothingFound:
           case MainPageState.loadingError:
           case MainPageState.searchResult:
-          case MainPageState.favorites:
           default:
             return DefaultWidget(state: state);
         }
@@ -119,17 +121,13 @@ class NoFavouritesWidget extends StatelessWidget {
           Text(
             "No favorites yet",
             style: TextStyle(
-                fontSize: 32,
-                color: Colors.white,
-                fontWeight: FontWeight.w800),
+                fontSize: 32, color: Colors.white, fontWeight: FontWeight.w800),
           ),
           SizedBox(height: 20),
           Text(
             "Search and add".toUpperCase(),
             style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.w700),
+                fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
           ),
           SizedBox(height: 30),
           ActionButton(text: "Search".toUpperCase(), onTap: () {})
@@ -171,6 +169,47 @@ class MinSymbolsText extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 114),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            "Your favorites",
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SuperheroCard(
+            name: "Batman",
+            realName: "Bruce Wane",
+            imageUrl: SuperheroesImages.batmanImageUrl,
+          ),
+        ),
+        SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SuperheroCard(
+            name: "Ironman",
+            realName: "Tony Stark",
+            imageUrl: SuperheroesImages.ironmanImageUrl,
+          ),
+        ),
+      ],
     );
   }
 }
