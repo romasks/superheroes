@@ -185,7 +185,7 @@ class SearchResultsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SuperheroCard(
             name: "Venom",
-            realName: "Eddi Brock",
+            realName: "Eddie Brock",
             imageUrl: SuperheroesImages.venomImageUrl,
           ),
         ),
