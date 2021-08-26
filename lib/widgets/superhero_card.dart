@@ -25,37 +25,35 @@ class SuperheroCard extends StatelessWidget {
         );
       },
       child: Container(
-        decoration: BoxDecoration(color: SuperheroesColors.bgSuperheroPage),
+        height: 70,
+        color: SuperheroesColors.bgSuperheroPage,
         child: Row(
           children: [
-            Image.network(
-              imageUrl,
-              width: 70,
-              height: 70,
-              fit: BoxFit.fitWidth,
-            ),
+            Image.network(imageUrl, width: 70, height: 70, fit: BoxFit.cover),
             SizedBox(width: 12),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                Text(
-                  realName,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
+                  Text(
+                    realName,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

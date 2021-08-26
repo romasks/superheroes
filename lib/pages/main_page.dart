@@ -158,7 +158,7 @@ class SearchResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 114),
+        SizedBox(height: 90),
         Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -199,7 +199,7 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 114),
+        SizedBox(height: 90),
         Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.symmetric(horizontal: 16),
