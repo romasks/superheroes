@@ -105,8 +105,8 @@ class MainPageStateWidget extends StatelessWidget {
               imageWidth: 126,
               imageTopPadding: 22.0,
             );
-          case MainPageState.searchResult:
-            return SearchResultPage();
+          case MainPageState.searchResults:
+            return SearchResultsPage();
           case MainPageState.favorites:
             return FavoritesPage();
           default:
@@ -153,7 +153,7 @@ class MinSymbolsText extends StatelessWidget {
   }
 }
 
-class SearchResultPage extends StatelessWidget {
+class SearchResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
