@@ -60,7 +60,17 @@ class MainBloc {
   Stream<List<SuperheroInfo>> observeSearchedSuperheroes() => searchedSuperheroesSubject;
 
   Future<List<SuperheroInfo>> search(final String text) async {
-    return [];
+    await Future.delayed(Duration(seconds: 1));
+
+    final List<SuperheroInfo> heroes = [];
+    SuperheroInfo.mocked.forEach((hero) {
+      if (hero.name.toLowerCase().contains(text.toLowerCase())) {
+        heroes.add(hero);
+      }
+    });
+    return heroes;
+
+    // return SuperheroInfo.mocked;
   }
 
   Stream<MainPageState> observeMainPageState() => stateSubject;
@@ -73,6 +83,11 @@ class MainBloc {
   }
 
   void updateText(final String? text) {
+    /*final String? capitalizedText = text
+        ?.split(" ")
+        .map((e) => "${e[0].toUpperCase()}${e.substring(1)}")
+        .join(" ");
+    print(capitalizedText);*/
     currentTextSubject.add(text ?? "");
   }
 
@@ -138,7 +153,7 @@ class SuperheroInfo {
     ),
     SuperheroInfo(
       name: "Venom",
-      realName: "Eddi Brock",
+      realName: "Eddie Brock",
       imageUrl: SuperheroesImages.venomImageUrl,
     ),
   ];

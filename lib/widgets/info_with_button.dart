@@ -27,7 +27,8 @@ class InfoWithButton extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
             children: [
@@ -49,7 +50,7 @@ class InfoWithButton extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             title,
             style: TextStyle(
@@ -58,7 +59,7 @@ class InfoWithButton extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             subtitle.toUpperCase(),
             style: TextStyle(
@@ -67,7 +68,7 @@ class InfoWithButton extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           ActionButton(text: buttonText.toUpperCase(), onTap: () {})
         ],
       ),

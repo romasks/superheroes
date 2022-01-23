@@ -11,7 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MainPage(),
-      theme: ThemeData(fontFamily: 'OpenSans_regular'),
+      theme: ThemeData(
+        // fontFamily: 'OpenSans_regular',
+        textTheme: GoogleFonts.openSansTextTheme(
+          Theme.of(context).textTheme,
+        )
+      ),
     );
   }
 }
