@@ -18,10 +18,12 @@ class MainBloc {
   MainBloc() {
     stateSubject.add(MainPageState.noFavorites);
 
-    textSubscription = Rx.combineLatest2<String, List<SuperheroInfo>, MainPageStateInfo>(
+    textSubscription =
+        Rx.combineLatest2<String, List<SuperheroInfo>, MainPageStateInfo>(
       currentTextSubject.distinct().debounceTime(Duration(microseconds: 500)),
       favoritesSuperheroesSubject,
-      (searchedText, favorites) => MainPageStateInfo(searchedText, favorites.isNotEmpty),
+      (searchedText, favorites) =>
+          MainPageStateInfo(searchedText, favorites.isNotEmpty),
     ).listen((value) {
       searchSubscription?.cancel();
       if (value.searchedText.isEmpty) {
@@ -55,9 +57,11 @@ class MainBloc {
     );
   }
 
-  Stream<List<SuperheroInfo>> observeFavoriteSuperheroes() => favoritesSuperheroesSubject;
+  Stream<List<SuperheroInfo>> observeFavoriteSuperheroes() =>
+      favoritesSuperheroesSubject;
 
-  Stream<List<SuperheroInfo>> observeSearchedSuperheroes() => searchedSuperheroesSubject;
+  Stream<List<SuperheroInfo>> observeSearchedSuperheroes() =>
+      searchedSuperheroesSubject;
 
   Future<List<SuperheroInfo>> search(final String text) async {
     await Future.delayed(Duration(seconds: 1));
@@ -77,8 +81,9 @@ class MainBloc {
 
   void nextState() {
     final currentState = stateSubject.value;
-    final nextState = MainPageState
-        .values[(MainPageState.values.indexOf(currentState) + 1) % MainPageState.values.length];
+    final nextState = MainPageState.values[
+        (MainPageState.values.indexOf(currentState) + 1) %
+            MainPageState.values.length];
     stateSubject.sink.add(nextState);
   }
 
@@ -89,6 +94,15 @@ class MainBloc {
         .join(" ");
     print(capitalizedText);*/
     currentTextSubject.add(text ?? "");
+  }
+
+  void removeFavorite() {
+    var favorites = favoritesSuperheroesSubject.value;
+    if (favorites.isEmpty) {
+      favorites = SuperheroInfo.mocked;
+    } else {
+      favorites = favorites.take(favorites.length - 1).toList();
+    }
   }
 
   void dispose() {

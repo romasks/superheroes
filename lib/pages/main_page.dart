@@ -5,6 +5,7 @@ import 'package:superheroes/blocs/main_bloc.dart';
 import 'package:superheroes/pages/superhero_page.dart';
 import 'package:superheroes/resources/superheroes_colors.dart';
 import 'package:superheroes/resources/superheroes_images.dart';
+import 'package:superheroes/widgets/action_button.dart';
 import 'package:superheroes/widgets/info_with_button.dart';
 import 'package:superheroes/widgets/superhero_card.dart';
 
@@ -45,8 +46,14 @@ class MainPageContent extends StatelessWidget {
       children: [
         MainPageStateWidget(),
         Padding(
-          padding: const EdgeInsets.only(left: 16, top: 12, right: 16),
-          child: SearchWidget(),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            children: [
+              SearchWidget(),
+              Expanded(child: Column()),
+              RemoveButtonStateWidget()
+            ],
+          ),
         ),
       ],
     );
@@ -111,6 +118,32 @@ class MainPageStateWidget extends StatelessWidget {
             );
           default:
             return DefaultWidget(state: state);
+        }
+      },
+    );
+  }
+}
+
+class RemoveButtonStateWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final MainBloc bloc = Provider.of<MainBloc>(context, listen: false);
+    return StreamBuilder<MainPageState>(
+      stream: bloc.observeMainPageState(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data == null) {
+          return SizedBox();
+        }
+        final MainPageState state = snapshot.data!;
+        switch (state) {
+          case MainPageState.noFavorites:
+          case MainPageState.favorites:
+            return ActionButton(
+              text: "Remove",
+              onTap: () => bloc.removeFavorite(),
+            );
+          default:
+            return SizedBox();
         }
       },
     );
