@@ -47,13 +47,7 @@ class MainPageContent extends StatelessWidget {
         MainPageStateWidget(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Column(
-            children: [
-              SearchWidget(),
-              Expanded(child: Column()),
-              RemoveButtonStateWidget()
-            ],
-          ),
+          child: SearchWidget(),
         ),
       ],
     );
@@ -73,14 +67,22 @@ class MainPageStateWidget extends StatelessWidget {
         final MainPageState state = snapshot.data!;
         switch (state) {
           case MainPageState.noFavorites:
-            return InfoWithButton(
-              title: "No favorites yet",
-              subtitle: "Search and add",
-              buttonText: "Search",
-              assetImage: SuperheroesImages.ironman,
-              imageHeight: 119,
-              imageWidth: 108,
-              imageTopPadding: 9.0,
+            return Stack(
+              children: [
+                InfoWithButton(
+                  title: "No favorites yet",
+                  subtitle: "Search and add",
+                  buttonText: "Search",
+                  assetImage: SuperheroesImages.ironman,
+                  imageHeight: 119,
+                  imageWidth: 108,
+                  imageTopPadding: 9.0,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ActionButton(text: "Remove", onTap: bloc.removeFavorite),
+                ),
+              ],
             );
           case MainPageState.minSymbols:
             return MinSymbolsText();
@@ -112,38 +114,20 @@ class MainPageStateWidget extends StatelessWidget {
               stream: bloc.observeSearchedSuperheroes(),
             );
           case MainPageState.favorites:
-            return SuperheroesList(
-              title: "Your favourite",
-              stream: bloc.observeFavoriteSuperheroes(),
+            return Stack(
+              children: [
+                SuperheroesList(
+                  title: "Your favourite",
+                  stream: bloc.observeFavoriteSuperheroes(),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ActionButton(text: "Remove", onTap: bloc.removeFavorite),
+                ),
+              ],
             );
           default:
             return DefaultWidget(state: state);
-        }
-      },
-    );
-  }
-}
-
-class RemoveButtonStateWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final MainBloc bloc = Provider.of<MainBloc>(context, listen: false);
-    return StreamBuilder<MainPageState>(
-      stream: bloc.observeMainPageState(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data == null) {
-          return SizedBox();
-        }
-        final MainPageState state = snapshot.data!;
-        switch (state) {
-          case MainPageState.noFavorites:
-          case MainPageState.favorites:
-            return ActionButton(
-              text: "Remove",
-              onTap: () => bloc.removeFavorite(),
-            );
-          default:
-            return SizedBox();
         }
       },
     );
@@ -212,13 +196,22 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   final TextEditingController controller = TextEditingController();
+  bool haveSearchedText = false;
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       final MainBloc bloc = Provider.of<MainBloc>(context, listen: false);
-      controller.addListener(() => bloc.updateText(controller.text));
+      controller.addListener(() {
+        bloc.updateText(controller.text);
+        final haveText = controller.text.isNotEmpty;
+        if (haveSearchedText != haveText) {
+          setState(() {
+            haveSearchedText = haveText;
+          });
+        }
+      });
     });
   }
 
@@ -245,6 +238,12 @@ class _SearchWidgetState extends State<SearchWidget> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: haveSearchedText
+              ? BorderSide(color: Colors.white, width: 2)
+              : BorderSide(color: Colors.white24),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

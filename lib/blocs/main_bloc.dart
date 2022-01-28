@@ -18,12 +18,10 @@ class MainBloc {
   MainBloc() {
     stateSubject.add(MainPageState.noFavorites);
 
-    textSubscription =
-        Rx.combineLatest2<String, List<SuperheroInfo>, MainPageStateInfo>(
+    textSubscription = Rx.combineLatest2<String, List<SuperheroInfo>, MainPageStateInfo>(
       currentTextSubject.distinct().debounceTime(Duration(microseconds: 500)),
       favoritesSuperheroesSubject,
-      (searchedText, favorites) =>
-          MainPageStateInfo(searchedText, favorites.isNotEmpty),
+      (searchedText, favorites) => MainPageStateInfo(searchedText, favorites.isNotEmpty),
     ).listen((value) {
       searchSubscription?.cancel();
       if (value.searchedText.isEmpty) {
@@ -57,33 +55,23 @@ class MainBloc {
     );
   }
 
-  Stream<List<SuperheroInfo>> observeFavoriteSuperheroes() =>
-      favoritesSuperheroesSubject;
+  Stream<List<SuperheroInfo>> observeFavoriteSuperheroes() => favoritesSuperheroesSubject;
 
-  Stream<List<SuperheroInfo>> observeSearchedSuperheroes() =>
-      searchedSuperheroesSubject;
+  Stream<List<SuperheroInfo>> observeSearchedSuperheroes() => searchedSuperheroesSubject;
 
   Future<List<SuperheroInfo>> search(final String text) async {
     await Future.delayed(Duration(seconds: 1));
-
-    final List<SuperheroInfo> heroes = [];
-    SuperheroInfo.mocked.forEach((hero) {
-      if (hero.name.toLowerCase().contains(text.toLowerCase())) {
-        heroes.add(hero);
-      }
-    });
-    return heroes;
-
-    // return SuperheroInfo.mocked;
+    return SuperheroInfo.mocked
+        .where((hero) => hero.name.toLowerCase().contains(text.toLowerCase()))
+        .toList();
   }
 
   Stream<MainPageState> observeMainPageState() => stateSubject;
 
   void nextState() {
     final currentState = stateSubject.value;
-    final nextState = MainPageState.values[
-        (MainPageState.values.indexOf(currentState) + 1) %
-            MainPageState.values.length];
+    final nextState = MainPageState
+        .values[(MainPageState.values.indexOf(currentState) + 1) % MainPageState.values.length];
     stateSubject.sink.add(nextState);
   }
 
@@ -97,11 +85,15 @@ class MainBloc {
   }
 
   void removeFavorite() {
-    var favorites = favoritesSuperheroesSubject.value;
-    if (favorites.isEmpty) {
-      favorites = SuperheroInfo.mocked;
+    print("REMOVE FAV");
+    final List<SuperheroInfo> currentFavorites = favoritesSuperheroesSubject.value;
+
+    if (currentFavorites.isEmpty) {
+      favoritesSuperheroesSubject.add(SuperheroInfo.mocked);
     } else {
-      favorites = favorites.take(favorites.length - 1).toList();
+      var updatedList = currentFavorites.take(currentFavorites.length - 1).toList();
+      // var updatedList = currentFavorites.sublist(0, currentFavorites.length - 1);
+      favoritesSuperheroesSubject.add(updatedList);
     }
   }
 
